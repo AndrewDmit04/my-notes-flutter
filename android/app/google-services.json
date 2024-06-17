@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "570350156640",
+    "project_id": "my-learninng-project2024",
+    "storage_bucket": "my-learninng-project2024.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570350156640:android:5bd4ad654a32d6c5debc05",
+        "android_client_info": {
+          "package_name": "com.example.my_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9X5VH8JZJARW1io6qbeEXH86KzXeonME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
