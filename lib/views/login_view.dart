@@ -31,73 +31,66 @@ class _LoginViewState extends State<LoginView> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar : AppBar(
-        title : const Text('Register'),
-      ),
-      body : FutureBuilder(
-        future: Firebase.initializeApp(
-                  options: DefaultFirebaseOptions.currentPlatform,
+     return Scaffold(
+       appBar: AppBar(title: const Text("login")),
+       body: Column(
+            children: [
+              TextField(
+                controller: _email,
+                enableSuggestions: false,
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your email here',
                 ),
-        builder: (context,snapshot){
-          switch (snapshot.connectionState){
-            case ConnectionState.done:
-                      return Column(
-          children: [
-            TextField(
-              controller: _email,
-              enableSuggestions: false,
-              autocorrect: false,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                hintText: 'Enter your email here',
               ),
-            ),
-            TextField(
-              controller: _password,
-              obscureText: true,
-              enableSuggestions: false,
-              autocorrect: false,
-              decoration: const InputDecoration(
-                hintText: 'Enter your password here',
+              TextField(
+                controller: _password,
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your password here',
+                ),
               ),
-            ),
-            TextButton(
-              onPressed: () async{
-                
-                final email = _email.text;
-                final password = _password.text; 
-
-                  try{
-                    final userCredintial = 
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: email, 
-                    password: password
-                    );
-                    print(userCredintial);
-                  }
-                  on FirebaseAuthException catch (e){
-                    if (e.code == 'user-not-found'){
-                      print("user not found");
+              TextButton(
+                onPressed: () async{
+                  
+                  final email = _email.text;
+                  final password = _password.text; 
+       
+                    try{
+                      final userCredintial = 
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: email, 
+                      password: password
+                      );
+                      print(userCredintial);
                     }
-                    else{
-                      print("somethong else happend");
-                      print(e);
+                    on FirebaseAuthException catch (e){
+                      if (e.code == 'user-not-found'){
+                        print("user not found");
+                      }
+                      else{
+                        print("somethong else happend");
+                        print(e);
+                      }
+       
                     }
-
-                  }
-
-              }, 
-              child: const Text('login'),
-            ),
-          ],
-        );
-          default:
-            return const Text('loading....');      // TODO: Handle this case.
-        }        
-        },
-      ),
-    );
+       
+                }, 
+                child: const Text('login'),
+              ),
+              TextButton(
+                onPressed: (){
+                  Navigator.of(context).pushNamedAndRemoveUntil
+                  ('/register/', 
+                  (route) => false);
+                }, 
+                child: Text("Not register yet? Register here!"))
+            ],
+          ),
+     );
   }
   
 
