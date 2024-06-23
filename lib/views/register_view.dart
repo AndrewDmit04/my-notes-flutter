@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/firebase_options.dart';
+import 'dart:developer' as devtools show log;
+
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -62,11 +64,11 @@ class _RegisterViewState extends State<RegisterView> {
                       email: email, 
                       password: password
                       );
-                    print(userCredintial);
+                    devtools.log(userCredintial.toString());
                   }
                   catch(e){
-                    print("something bad happend");
-                    print(e);
+                    devtools.log("something bad happend");
+                    devtools.log(e.toString());
                     // print(e);
                   }
                 }, 
@@ -76,7 +78,7 @@ class _RegisterViewState extends State<RegisterView> {
                 onPressed: (){
                   Navigator.of(context).pushNamedAndRemoveUntil('/login/', (route) => false);
                 }, 
-                child: Text("Alredy registered? go login!"))
+                child: const Text("Alredy registered? go login!"))
             ],
           ),
  );
