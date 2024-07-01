@@ -5,6 +5,8 @@ import 'package:my_project/constants/routes.dart';
 import 'package:my_project/firebase_options.dart';
 import 'dart:developer' as devtools show log;
 
+import 'package:my_project/utilities/show_error_dialog.dart';
+
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -60,17 +62,33 @@ class _RegisterViewState extends State<RegisterView> {
                   final email = _email.text;
                   final password = _password.text; 
                   try{
-                    final userCredintial = 
                       await FirebaseAuth.instance.createUserWithEmailAndPassword(
                       email: email, 
-                      password: password
-                      );
-                    devtools.log(userCredintial.toString());
+                      password: password);
+                    final user = FirebaseAuth.instance.currentUser;
+                    await user?.sendEmailVerification();
+                    Navigator.of(context).pushNamed(verifyEmailRoute);
+                  }
+                  on FirebaseAuthException catch(e){
+                    if(e.code == 'weak-password'){
+                      await showErrorDialog(context, 'weak password');
+                      devtools.log("weak password");
+                    }
+                    else if(e.code == 'email-already-in-use'){
+                      await showErrorDialog(context, 'email already in use');
+                      devtools.log('email already in use');
+                    }
+                    else if(e.code == 'invalid-email'){
+                      await showErrorDialog(context, 'invalid email');
+                      devtools.log('invalid email');
+                    }
+                    else{
+                      await showErrorDialog(context, 'Error ${e.code}');
+
+                    }
                   }
                   catch(e){
-                    devtools.log("something bad happend");
-                    devtools.log(e.toString());
-                    // print(e);
+                    await showErrorDialog(context, e.toString());
                   }
                 }, 
                 child: const Text('Register'),
