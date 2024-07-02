@@ -1,5 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:my_project/firebase_options.dart';
 import 'package:my_project/services/auth/auth_provider.dart';
 import 'package:my_project/services/auth/auth_user.dart';
 import 'package:my_project/services/auth/firebase_auth_provider.dart';
