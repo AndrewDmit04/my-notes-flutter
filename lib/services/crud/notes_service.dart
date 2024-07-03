@@ -106,7 +106,7 @@ class NotesService{
     final notes = await db.query(
         noteTable,
         limit: 1, 
-        where: 'id:?',
+        where: 'id=?',
         whereArgs: [id],
       );
 
@@ -137,7 +137,7 @@ class NotesService{
 
     final deleteCount = await db.delete(
       noteTable, 
-      where: 'id:?',
+      where: 'id=?',
       whereArgs: [id],
     );
     if(deleteCount == 0){
@@ -190,7 +190,7 @@ class NotesService{
     final results = await db.query(
       userTable,
       limit: 1,
-      where: 'email:?',
+      where: 'email=?',
       whereArgs: [email.toLowerCase()],
     );
     if(results.isEmpty){
@@ -208,7 +208,7 @@ class NotesService{
     final results = await db.query(
       userTable,
       limit:1,
-      where: 'email:?', 
+      where: 'email = ?', 
       whereArgs: [email.toLowerCase()]
     );
     if(results.isNotEmpty){
@@ -228,7 +228,7 @@ class NotesService{
     final db = _getDatabaseOrThrow();
     final deletedCount = await db.delete(
       userTable, 
-      where: 'email=?', 
+      where: 'email = ?', 
       whereArgs: [email.toLowerCase()],
     );
     if (deletedCount != 1){
