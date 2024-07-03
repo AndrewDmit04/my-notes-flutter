@@ -40,11 +40,16 @@ class NotesService{
   List<DataBaseNote> _notes = []; 
 
   static final NotesService _shared = NotesService._sharedInstance();
-  NotesService._sharedInstance();
+  NotesService._sharedInstance(){
+    _notesStreamController = StreamController<List<DataBaseNote>>.broadcast(
+      onListen: (){
+        _notesStreamController.sink.add(_notes); 
+      },
+    );
+  }
   factory NotesService() =>_shared; 
 
-  final _notesStreamController = StreamController<List<DataBaseNote>>.broadcast();
-
+  late final StreamController<List<DataBaseNote>> _notesStreamController;
   Stream<List<DataBaseNote>> get allNotes => _notesStreamController.stream;
 
   Future<DataBaseUSer> getorCreateUSer({required String email}) async{
@@ -328,7 +333,7 @@ class DataBaseNote{
   isSynchedCloud = (map[isSynchedWithCloud] as int) == 1 ? true : false; 
 
   @override
-  String toString() => 'Note, ID = $id, userId = $userId, isSynchedWithCloud = $isSynchedCloud'; 
+  String toString() => 'Note, ID = $id, userId = $userId, isSynchedWithCloud = $isSynchedCloud, text=$text'; 
 
   @override bool operator==(covariant DataBaseNote other ) => id == other.id;
   
