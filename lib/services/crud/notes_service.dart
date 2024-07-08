@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:my_project/extensions/list/filter.dart';
 import 'package:my_project/services/crud/crud_exception.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
@@ -38,6 +39,7 @@ class NotesService{
   Database? _db; 
 
   List<DataBaseNote> _notes = []; 
+  DataBaseUSer? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
   NotesService._sharedInstance(){
@@ -50,15 +52,30 @@ class NotesService{
   factory NotesService() =>_shared; 
 
   late final StreamController<List<DataBaseNote>> _notesStreamController;
-  Stream<List<DataBaseNote>> get allNotes => _notesStreamController.stream;
+  Stream<List<DataBaseNote>> get allNotes => _notesStreamController.stream.filter((note) {
+    final currentUser = _user;
+    if(currentUser != null){
+      return currentUser.id == note.userId; 
+    }
+    else{
+      throw UserShouldBeSetBeforeReadingNotes();
+    }
+  });
 
-  Future<DataBaseUSer> getorCreateUSer({required String email}) async{
+  Future<DataBaseUSer> getorCreateUSer({required String email,bool setAsCurrentUser = true,}) async{
     try{
       final user = await getUser(email: email);
+      if(setAsCurrentUser){
+        _user = user;
+      }
       return user;
+
     }
     on CouldNotFindUser{
       final createdUser = await createUser(email: email);
+      if(setAsCurrentUser){
+        _user = createdUser; 
+      }
       return createdUser; 
     }
     catch(e){
@@ -81,7 +98,10 @@ class NotesService{
     final updatedCount = await db.update(noteTable, {
       textColumn: text, 
       isSynchedWithCloud: 0,
-    });
+    }, 
+    where: 'id = ?' , 
+    whereArgs: [note.id],
+    );
 
     if(updatedCount == 0){
       throw CouldNotUpdateNote();
