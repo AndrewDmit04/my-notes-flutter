@@ -6,7 +6,7 @@ import 'package:my_project/views/notes/create_update_note_view.dart';
 import 'package:my_project/views/notes/notes_view.dart';
 import 'package:my_project/views/register_view.dart';
 import 'package:my_project/views/verify_email_view.dart';
-import 'dart:developer' as devtools show log;
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

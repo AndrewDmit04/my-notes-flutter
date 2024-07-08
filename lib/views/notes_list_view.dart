@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/services/crud/notes_service.dart';
 import 'package:my_project/utilities/dialongs/delete_dialog.dart';

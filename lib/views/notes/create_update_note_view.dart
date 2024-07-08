@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_project/services/auth/auth_service.dart';
 import 'package:my_project/services/crud/notes_service.dart';
@@ -45,11 +44,11 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
       return existingNote;
     }
     final currentUser = AuthService.firebase().currentUser!;
-    final email = currentUser.email!;
+    final email = currentUser.email;
     final owner = await _notesService.getUser(email: email);
-    final NewNote = await _notesService.createNote(owner: owner);
-    _note = NewNote; 
-    return NewNote; 
+    final newNote = await _notesService.createNote(owner: owner);
+    _note = newNote; 
+    return newNote; 
   }
   void _deleteNoteIfTextIsEmpty(){
     final note = _note; 
