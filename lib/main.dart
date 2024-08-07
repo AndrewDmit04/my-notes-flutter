@@ -17,6 +17,7 @@ import 'package:my_project/views/verify_email_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
